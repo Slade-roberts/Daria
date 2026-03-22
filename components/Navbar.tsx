@@ -36,6 +36,15 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href="/studio"
+              className="text-xs text-charcoal/30 hover:text-sage transition-colors font-sans"
+              title="Admin"
+            >
+              ✎
+            </Link>
+          </li>
         </ul>
 
         {/* Mobile hamburger */}

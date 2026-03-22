@@ -1,3 +1,4 @@
+import { draftMode } from 'next/headers'
 import { getPublications } from '@/lib/queries'
 import type { Metadata } from 'next'
 
@@ -9,19 +10,36 @@ export const metadata: Metadata = {
 }
 
 export default async function PublicationsPage() {
-  const publications = await getPublications()
+  const [{ isEnabled: isAdmin }, publications] = await Promise.all([
+    draftMode(),
+    getPublications(),
+  ])
 
   return (
     <div className="pt-16">
       <div className="max-w-6xl mx-auto px-6 py-24">
         <header className="mb-16 border-b border-muted-gray/20 pb-12">
           <p className="text-xs tracking-[0.3em] uppercase text-sage mb-4 font-sans">Writing</p>
-          <h1 className="font-serif text-5xl md:text-6xl font-light text-charcoal mb-4">
-            Publications &amp; Essays
-          </h1>
-          <p className="text-charcoal/60 max-w-xl font-sans">
-            Essays, reviews, and literary writing on translation, literature, and language.
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="font-serif text-5xl md:text-6xl font-light text-charcoal mb-4">
+                Publications &amp; Essays
+              </h1>
+              <p className="text-charcoal/60 max-w-xl font-sans">
+                Essays, reviews, and literary writing on translation, literature, and language.
+              </p>
+            </div>
+            {isAdmin && (
+              <a
+                href="/studio/intent/create/type=publication/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 text-xs tracking-widest uppercase px-4 py-2 border border-sage text-sage hover:bg-sage hover:text-cream transition-colors font-sans mt-2"
+              >
+                + Add Publication
+              </a>
+            )}
+          </div>
         </header>
 
         {publications.length === 0 ? (
@@ -46,9 +64,21 @@ export default async function PublicationsPage() {
                     </div>
                   )}
                   <div className={pub.publicationDate ? 'md:col-span-3' : 'md:col-span-4'}>
-                    <h2 className="font-serif text-2xl text-charcoal mb-3 group-hover:text-sage transition-colors">
-                      {pub.title}
-                    </h2>
+                    <div className="flex items-start justify-between gap-4">
+                      <h2 className="font-serif text-2xl text-charcoal mb-3 group-hover:text-sage transition-colors">
+                        {pub.title}
+                      </h2>
+                      {isAdmin && (
+                        <a
+                          href={`/studio/intent/edit/id=${pub._id};type=publication/`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 text-xs text-sage/60 hover:text-sage transition-colors font-sans mt-1"
+                        >
+                          Edit
+                        </a>
+                      )}
+                    </div>
                     {pub.summary && (
                       <p className="text-charcoal/60 leading-relaxed mb-4 font-sans">{pub.summary}</p>
                     )}
