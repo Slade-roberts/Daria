@@ -37,12 +37,15 @@ Edit `.env.local`:
 NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
 NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_READ_TOKEN=your-read-token
+ADMIN_PASSWORD=choose-a-strong-password
 ```
 
 To get your Sanity project credentials:
 1. Create a project at [sanity.io](https://sanity.io)
 2. Copy the Project ID from your project dashboard
 3. Generate an API token with read permissions
+
+`ADMIN_PASSWORD` is the password Daria uses to sign in to edit mode (see below).
 
 ### 4. Run the development server
 
@@ -83,6 +86,15 @@ The site uses Sanity CMS for all content. Access the studio at `/studio` to mana
 - **Publications** — Essays, articles, reviews
 - **Testimonials** — Endorsements shown on the homepage
 - **Contact Section** — Contact page heading and intro text
+
+### Editing the site as Daria
+
+1. Go to `/login` on the live site and enter the `ADMIN_PASSWORD`
+2. An **Edit Mode** toolbar appears at the bottom of every page with buttons to:
+   - Edit Site Settings, Edit About Page
+   - Add a new Work (portfolio item) or Publication
+   - Open the full Sanity Studio
+3. Click **Sign Out** in the toolbar (or visit `/login?logout=1`) to exit edit mode
 
 ## Deployment
 

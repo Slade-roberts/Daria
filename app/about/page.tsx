@@ -1,3 +1,4 @@
+import { draftMode } from 'next/headers'
 import { getAboutPage, getSiteSettings } from '@/lib/queries'
 import PortableTextRenderer from '@/components/PortableTextRenderer'
 import type { Metadata } from 'next'
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-  const [about, siteSettings] = await Promise.all([getAboutPage(), getSiteSettings()])
+  const [{ isEnabled: isAdmin }, about, siteSettings] = await Promise.all([
+    draftMode(),
+    getAboutPage(),
+    getSiteSettings(),
+  ])
 
   return (
     <div className="pt-16">
@@ -18,14 +23,28 @@ export default async function AboutPage() {
         {/* Page header */}
         <header className="mb-16 border-b border-muted-gray/20 pb-12">
           <p className="text-xs tracking-[0.3em] uppercase text-sage mb-4 font-sans">About</p>
-          <h1 className="font-serif text-5xl md:text-6xl font-light text-charcoal">
-            {siteSettings?.title || 'Daria Shchukina'}
-          </h1>
-          {siteSettings?.subtitle && (
-            <p className="font-serif text-xl italic text-charcoal/50 mt-3">
-              {siteSettings.subtitle}
-            </p>
-          )}
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="font-serif text-5xl md:text-6xl font-light text-charcoal">
+                {siteSettings?.title || 'Daria Shchukina'}
+              </h1>
+              {siteSettings?.subtitle && (
+                <p className="font-serif text-xl italic text-charcoal/50 mt-3">
+                  {siteSettings.subtitle}
+                </p>
+              )}
+            </div>
+            {isAdmin && (
+              <a
+                href="/studio/intent/edit/id=about;type=about/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 text-xs tracking-widest uppercase px-4 py-2 border border-sage text-sage hover:bg-sage hover:text-cream transition-colors font-sans mt-2"
+              >
+                Edit About
+              </a>
+            )}
+          </div>
         </header>
 
         <div className="grid md:grid-cols-3 gap-16">

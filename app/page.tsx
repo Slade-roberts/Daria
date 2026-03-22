@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import { draftMode } from 'next/headers'
 import { getSiteSettings, getFeaturedPortfolioItems, getTestimonials } from '@/lib/queries'
 
 export const revalidate = 60
 
 export default async function HomePage() {
-  const [siteSettings, featuredItems, testimonials] = await Promise.all([
+  const [{ isEnabled: isAdmin }, siteSettings, featuredItems, testimonials] = await Promise.all([
+    draftMode(),
     getSiteSettings(),
     getFeaturedPortfolioItems(),
     getTestimonials(),
@@ -47,6 +49,16 @@ export default async function HomePage() {
           >
             Contact
           </Link>
+          {isAdmin && (
+            <a
+              href="/studio/intent/edit/id=siteSettings;type=siteSettings/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 border border-sage text-sage text-sm tracking-widest uppercase hover:bg-sage hover:text-cream transition-colors font-sans"
+            >
+              Edit Settings
+            </a>
+          )}
         </div>
       </section>
 
@@ -60,9 +72,21 @@ export default async function HomePage() {
         <section className="max-w-6xl mx-auto px-6 py-24">
           <div className="flex items-center justify-between mb-12">
             <h2 className="font-serif text-3xl text-charcoal">Featured Work</h2>
-            <Link href="/portfolio" className="text-xs tracking-widest uppercase text-sage hover:text-charcoal transition-colors font-sans">
-              All Work →
-            </Link>
+            <div className="flex items-center gap-4">
+              {isAdmin && (
+                <a
+                  href="/studio/intent/create/type=portfolioItem/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs tracking-widest uppercase text-sage hover:text-charcoal transition-colors font-sans"
+                >
+                  + Add Work
+                </a>
+              )}
+              <Link href="/portfolio" className="text-xs tracking-widest uppercase text-sage hover:text-charcoal transition-colors font-sans">
+                All Work →
+              </Link>
+            </div>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredItems.map((item) => (

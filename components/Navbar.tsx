@@ -36,6 +36,15 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href="/login"
+              className="text-xs text-charcoal/30 hover:text-sage transition-colors font-sans"
+              title="Sign in to edit"
+            >
+              Login
+            </Link>
+          </li>
         </ul>
 
         {/* Mobile hamburger */}
