@@ -33,10 +33,10 @@ export default async function AdminBar() {
           ))}
         </div>
         <Link
-          href="/api/draft?enable=false"
+          href="/login?logout=1"
           className="text-xs px-3 py-1.5 border border-cream/20 hover:border-sage text-cream/60 hover:text-sage whitespace-nowrap transition-colors font-sans rounded-sm ml-auto"
         >
-          Exit Edit Mode
+          Sign Out
         </Link>
       </div>
     </div>

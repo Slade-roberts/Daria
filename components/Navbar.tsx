@@ -38,11 +38,11 @@ export default function Navbar() {
           ))}
           <li>
             <Link
-              href="/studio"
+              href="/login"
               className="text-xs text-charcoal/30 hover:text-sage transition-colors font-sans"
-              title="Admin"
+              title="Sign in to edit"
             >
-              ✎
+              Login
             </Link>
           </li>
         </ul>
