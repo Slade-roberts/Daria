@@ -4,7 +4,7 @@ export const siteSettings = defineType({
   name: 'siteSettings',
   title: 'Site Settings',
   type: 'document',
-  // @ts-ignore
+  // @ts-expect-error -- __experimental_actions is not in the public Sanity type definitions yet
   __experimental_actions: ['update', 'publish'],
   fields: [
     defineField({

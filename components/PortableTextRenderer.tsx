@@ -1,7 +1,5 @@
 import { PortableText } from '@portabletext/react'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type PortableTextValue = any[] | any
+import type { TypedObject } from '@portabletext/types'
 
 const components = {
   block: {
@@ -37,7 +35,7 @@ const components = {
 }
 
 interface PortableTextRendererProps {
-  value: PortableTextValue
+  value: TypedObject | TypedObject[]
 }
 
 export default function PortableTextRenderer({ value }: PortableTextRendererProps) {
